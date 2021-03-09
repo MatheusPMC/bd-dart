@@ -1,4 +1,5 @@
 import 'package:sqljocky5/sqljocky.dart';
+import 'package:sqljocky5/connection/connection.dart';
 import 'package:bdproj/bd.dart' as bd;
 
 main() async {
@@ -6,7 +7,20 @@ main() async {
   var conn = await bd.createConnection();
 
   await createTable(conn);
-  await conn.close();
+  await inserData(conn);
+  //await conn.close();
+}
+
+Future<void> inserData(MySqlConnection conn) async {
+  print('Inserindo dados...');
+
+  var data = [
+    ['Matheus', 'matheus.pmc@hotmail.com', 29],
+    ['Mury', 'murykanehira@gmail.com', 21]
+  ];
+
+  await conn.preparedWithAll("INSERT INTO people (name, email, age) VALUES (?, ?, ?)", data);
+  print('Dados inseridos com sucesso!');
 }
 
 Future<void> createTable(MySqlConnection conn) async {
