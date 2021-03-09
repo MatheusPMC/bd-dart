@@ -12,7 +12,13 @@ main() async {
   await updateData(conn);
   await listData(conn);
   await removeData(conn);
+  await dropTable(conn);
   //await conn.close();
+}
+
+Future<void> dropTable(MySqlConnection conn) async {
+  print('\n\nRemovendo tabela...');
+  await conn.execute('DROP TABLE people');
 }
 
 Future<void> removeData(MySqlConnection conn) async {
