@@ -1,4 +1,5 @@
 import 'package:sqljocky5/sqljocky.dart';
+import 'package:sqljocky5/results/results.dart';
 import 'package:sqljocky5/connection/connection.dart';
 import 'package:bdproj/bd.dart' as bd;
 
@@ -7,8 +8,17 @@ main() async {
   var conn = await bd.createConnection();
 
   await createTable(conn);
-  await inserData(conn);
+  //await inserData(conn);
+  await listData(conn);
   //await conn.close();
+}
+
+
+Future<void> listData(MySqlConnection conn) async {
+  print('Listando dados');
+
+  StreamedResults results = await conn.execute('SELECT * FROM people');
+  results.forEach((Row row) => print('ID: ${row[0]}, Nome: ${row[1]}, Idade: ${row[2]}, Email: ${row[3]},'));
 }
 
 Future<void> inserData(MySqlConnection conn) async {
