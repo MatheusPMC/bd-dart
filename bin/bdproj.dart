@@ -8,11 +8,18 @@ main() async {
   var conn = await bd.createConnection();
 
   //await createTable(conn);
-  //await inserData(conn);
+  //await insertData(conn);
   await updateData(conn);
   await listData(conn);
+  await removeData(conn);
   //await conn.close();
 }
+
+Future<void> removeData(MySqlConnection conn) async {
+  print('\n\nRemovendo dados...');
+  await conn.execute('DELETE from people');
+}
+
 Future<void> updateData(MySqlConnection conn) async {
   print('\n\nAtualizando dados...');
   await conn.prepared('UPDATE people SET name = ? where id = ?', ['Math', 1]);
@@ -25,7 +32,7 @@ Future<void> listData(MySqlConnection conn) async {
   results.forEach((Row row) => print('ID: ${row[0]}, Nome: ${row[1]}, Idade: ${row[2]}, Email: ${row[3]},'));
 }
 
-Future<void> inserData(MySqlConnection conn) async {
+Future<void> insertData(MySqlConnection conn) async {
   print('Inserindo dados...');
 
   var data = [
