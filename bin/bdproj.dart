@@ -7,12 +7,16 @@ main() async {
 
   var conn = await bd.createConnection();
 
-  await createTable(conn);
+  //await createTable(conn);
   //await inserData(conn);
+  await updateData(conn);
   await listData(conn);
   //await conn.close();
 }
-
+Future<void> updateData(MySqlConnection conn) async {
+  print('\n\nAtualizando dados...');
+  await conn.prepared('UPDATE people SET name = ? where id = ?', ['Math', 1]);
+}
 
 Future<void> listData(MySqlConnection conn) async {
   print('Listando dados');
